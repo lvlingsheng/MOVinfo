@@ -34,7 +34,9 @@ Basic function:
 <img src='http://i.imgur.com/9821XGi.gif?1' title='function' width='' alt='Video Walkthrough' />
 
 Networking detection:
-<img src='http://i.imgur.com/T1XPyAr.gifv' title='Networking' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/T1XPyAr.gif' title='Networking' width='' alt='Video Walkthrough' />
+
+
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
