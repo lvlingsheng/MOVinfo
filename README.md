@@ -31,9 +31,14 @@ No fancy things this time.
 Here's a walkthrough of implemented user stories:
 
 Basic function:
+
+
 <img src='http://i.imgur.com/9821XGi.gif?1' title='function' width='' alt='Video Walkthrough' />
 
+
 Networking detection:
+
+
 <img src='http://i.imgur.com/T1XPyAr.gif' title='Networking' width='' alt='Video Walkthrough' />
 
 
