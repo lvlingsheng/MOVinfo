@@ -9,7 +9,7 @@
 import UIKit
 import AFNetworking
 import EZLoadingActivity
-
+ 
 class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDelegate {
 
     @IBOutlet weak var searchbar: UISearchBar!
@@ -27,7 +27,9 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        EZLoadingActivity.show("Loading...", disableUI: true)
+        AFNetworkReachabilityManager.sharedManager().startMonitoring()
+
+        
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         moviecollection.insertSubview(refreshControl, atIndex: 0)
@@ -35,8 +37,22 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         moviecollection.dataSource=self
         moviecollection.delegate=self
         searchbar.delegate=self
-        
-        
+        AFNetworkReachabilityManager.sharedManager().setReachabilityStatusChangeBlock{(status: AFNetworkReachabilityStatus?)          in
+            
+            switch status!.hashValue{
+            case AFNetworkReachabilityStatus.NotReachable.hashValue:
+                print("Not reachable")
+                EZLoadingActivity.show("No Networking", disableUI: true)
+            case AFNetworkReachabilityStatus.ReachableViaWiFi.hashValue , AFNetworkReachabilityStatus.ReachableViaWWAN.hashValue :
+                print("Reachable")
+                EZLoadingActivity.hide()
+                //EZLoadingActivity.showWithDelay("Networking Connect", disableUI: true, seconds: 2)
+                //println(MyClass.sharedInstance.description)  // Seems to cause error
+            default:
+                print("Unknown status")
+            }
+        }
+        EZLoadingActivity.show("Loading...", disableUI: true)
         let apiKey = "5b7969a9527bf5b7ec4a5b434db4fd89"
         let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
         let request = NSURLRequest(URL: url!)
@@ -57,11 +73,12 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
                             self.storedmovies=self.movies
                             self.moviecollection.reloadData()
                             EZLoadingActivity.hide(success: true, animated: true)
+
                     }
                 }
         });
         //filteredData=movies
-        
+        //EZLoadingActivity.hide(success: true, animated: true)
         task.resume()
     }
 
@@ -103,6 +120,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
     
     func onRefresh() {
         EZLoadingActivity.show("Loading...", disableUI: true)
+        
         let apiKey = "5b7969a9527bf5b7ec4a5b434db4fd89"
         let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
         let request = NSURLRequest(URL: url!)
@@ -125,11 +143,12 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
                             
                             self.moviecollection.reloadData()
                             EZLoadingActivity.hide(success: true, animated: true)
+
                     }
                 }
         });
         task.resume()
-        EZLoadingActivity.hide(success: true, animated: true)
+        //EZLoadingActivity.hide(success: true, animated: true)
         self.refreshControl.endRefreshing()
         print("success fresh")
 
