@@ -16,7 +16,7 @@ The following **required** functionality is complete:
 
 The following **optional** features are implemented:
 
-- [ ] User sees an error message when there's a networking error.
+- [x] User sees an error message when there's a networking error.
 - [x] Movies are displayed using a CollectionView instead of a TableView.
 - [x] User can search for a movie.
 - [ ] All images fade in as they are loading.
@@ -24,14 +24,17 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-- [ ] List anything else that you can get done to improve the app functionality!
+No fancy things this time.
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+Basic function:
+<img src='http://i.imgur.com/9821XGi.gif?1' title='function' width='' alt='Video Walkthrough' />
 
+Networking detection:
+<img src='http://i.imgur.com/T1XPyAr.gifv' title='Networking' width='' alt='Video Walkthrough' />
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
@@ -40,7 +43,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2016] [Lingsheng Lyu]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
