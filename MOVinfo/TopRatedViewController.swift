@@ -1,8 +1,8 @@
- //
-//  ViewController.swift
+//
+//  TopRatedViewController.swift
 //  MOVinfo
 //
-//  Created by 吕凌晟 on 16/1/6.
+//  Created by 吕凌晟 on 16/1/9.
 //  Copyright © 2016年 Lingsheng Lyu. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import UIKit
 import AFNetworking
 import EZLoadingActivity
 
-class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDelegate {
+class TopRatedViewController: UIViewController,UICollectionViewDelegate,UISearchBarDelegate {
 
     @IBOutlet weak var searchbar: UISearchBar!
     var refreshControl: UIRefreshControl!
@@ -21,12 +21,8 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
     var is_searching: Bool!
     var searchingDataArray:NSMutableArray = NSMutableArray()
     
-
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         EZLoadingActivity.show("Loading...", disableUI: true)
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
@@ -38,7 +34,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         
         
         let apiKey = "5b7969a9527bf5b7ec4a5b434db4fd89"
-        let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let url = NSURL(string:"https://api.themoviedb.org/3/movie/top_rated?api_key=\(apiKey)")
         let request = NSURLRequest(URL: url!)
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
@@ -63,6 +59,8 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         //filteredData=movies
         
         task.resume()
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,8 +68,9 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    
     func searchBarSearchButtonClicked(searchbar: UISearchBar) {
-            searchbar.resignFirstResponder()
+        searchbar.resignFirstResponder()
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -84,7 +83,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
             print(" search text %@ ",searchBar.text! as NSString)
             is_searching = true
             //filteredData.removeAll()
-            //self.movies=storedmovies
+            self.movies=storedmovies
             for var index = 0; index < movies!.count; index++
             {
                 let currentString = movies![index]["title"] as! String
@@ -104,7 +103,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
     func onRefresh() {
         EZLoadingActivity.show("Loading...", disableUI: true)
         let apiKey = "5b7969a9527bf5b7ec4a5b434db4fd89"
-        let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let url = NSURL(string:"https://api.themoviedb.org/3/movie/top_rated?api_key=\(apiKey)")
         let request = NSURLRequest(URL: url!)
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
@@ -115,12 +114,12 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
                 if let data = dataOrNil {
-
+                    
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                         data, options: NSJSONReadingOptions.MutableContainers) as? NSMutableDictionary {
                             //NSLog("response: \(responseDictionary)")
                             
-                           
+                            
                             self.movies=responseDictionary["results"] as? [NSMutableDictionary]
                             
                             self.moviecollection.reloadData()
@@ -132,7 +131,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         EZLoadingActivity.hide(success: true, animated: true)
         self.refreshControl.endRefreshing()
         print("success fresh")
-
+        
     }
     
     
@@ -163,29 +162,24 @@ class ViewController: UIViewController,UICollectionViewDelegate,UISearchBarDeleg
         NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["title"], forKey: "moviename")
         NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["vote_average"], forKey: "movierate")
         NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["overview"], forKey: "overview")
-
         
-//        if let myString = movies![indexPath.item]["backdrop_path"] as? String{
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["title"], forKey: "moviename")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["vote_average"], forKey: "movierate")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["overview"], forKey: "overview")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["backdrop_path"], forKey: "backdrop_path")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["poster_path"], forKey: "posterpath")
-//        }else if let myString = movies![indexPath.item]["backdrop_path"] as? String{
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["title"], forKey: "moviename")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["vote_average"], forKey: "movierate")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["overview"], forKey: "overview")
-//            NSUserDefaults.standardUserDefaults().setObject("No image", forKey: "backdrop_path")
-//            NSUserDefaults.standardUserDefaults().setObject(movies![indexPath.item]["poster_path"], forKey: "posterpath")
-//        }
+        
     }
 
-    
 
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }
 
-extension ViewController: UICollectionViewDataSource {
+extension TopRatedViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let movies=movies{
             return movies.count
@@ -193,10 +187,10 @@ extension ViewController: UICollectionViewDataSource {
             return 0
         }
     }
-
+    
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Moviecell", forIndexPath: indexPath) as! Moviecell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("TopMoviecell", forIndexPath: indexPath) as! TopMoviecell
         let movie=movies![indexPath.item]
         print(indexPath.item)
         let title=movie["title"] as! String
@@ -206,14 +200,13 @@ extension ViewController: UICollectionViewDataSource {
         if let myString = movies![indexPath.item]["poster_path"] as? String{
             let postpath=movie["poster_path"] as! String
             let imageURL=NSURL(string: baseURL + postpath)
-            cell.postpic.setImageWithURL(imageURL!)
+            cell.topratedpost.setImageWithURL(imageURL!)
         }
         else{
-            cell.postpic.image = UIImage(named: "NO Image")
+            cell.topratedpost.image = UIImage(named: "NO Image")
         }
-        cell.Moviename.text=title
+        cell.topratedMoviename.text=title
         
         return cell
     }
 }
-
