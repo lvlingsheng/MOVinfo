@@ -19,7 +19,7 @@ The following **optional** features are implemented:
 - [x] User sees an error message when there's a networking error.
 - [x] Movies are displayed using a CollectionView instead of a TableView.
 - [x] User can search for a movie.
-- [ ] All images fade in as they are loading.
+- [x] All images fade in as they are loading.
 - [x] Customize the UI.
 
 The following **additional** features are implemented:
@@ -33,7 +33,7 @@ Here's a walkthrough of implemented user stories:
 Basic function:
 
 
-<img src='http://i.imgur.com/9821XGi.gif?1' title='function' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/sez8sE5.gif' title='function' width='' alt='Video Walkthrough' />
 
 
 Networking detection:
