@@ -32,8 +32,7 @@ Here's a walkthrough of implemented user stories:
 
 Basic function:
 
-
-<img src='http://i.imgur.com/sez8sE5.gifv' title='function' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/sez8sE5.gifv' title='functiontest' width='' alt='Video Walkthrough' />
 
 
 Networking detection:
