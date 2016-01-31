@@ -30,15 +30,9 @@ No fancy things this time.
 
 Here's a walkthrough of implemented user stories:
 
-Basic function:
+Gif:
 
 <img src='http://i.imgur.com/6ART3q4.jpg' title='newfunction' width='' alt='Video Walkthrough' />
-
-
-Networking detection:
-
-
-<img src='http://i.imgur.com/T1XPyAr.gif' title='Networking' width='' alt='Video Walkthrough' />
 
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
