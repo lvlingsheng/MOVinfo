@@ -225,7 +225,22 @@ extension ViewController: UICollectionViewDataSource {
         if let myString = movies![indexPath.item]["poster_path"] as? String{
             let postpath=movie["poster_path"] as! String
             let imageURL=NSURL(string: baseURL + postpath)
-            cell.postpic.setImageWithURL(imageURL!)
+            cell.postpic.setImageWithURLRequest(NSURLRequest(URL: imageURL!), placeholderImage: nil, success: { (imageRequest, imageResponse, image) -> Void in
+                
+                
+                if imageResponse != nil {
+                    print("fade om Image")
+                    cell.postpic.alpha = 0.0
+                    cell.postpic.image = image
+                    UIView.animateWithDuration(0.8, animations: { () -> Void in
+                        cell.postpic.alpha = 1.0
+                    })
+                } else {
+                    print("Image was cached ")
+                    cell.postpic.image = image
+                }
+                }, failure: { (imageRequest, imageResponse, error) -> Void in
+            })
         }
         else{
             cell.postpic.image = UIImage(named: "NO Image")

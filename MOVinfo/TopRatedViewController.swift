@@ -200,7 +200,22 @@ extension TopRatedViewController: UICollectionViewDataSource {
         if let myString = movies![indexPath.item]["poster_path"] as? String{
             let postpath=movie["poster_path"] as! String
             let imageURL=NSURL(string: baseURL + postpath)
-            cell.topratedpost.setImageWithURL(imageURL!)
+            cell.topratedpost.setImageWithURLRequest(NSURLRequest(URL: imageURL!), placeholderImage: nil, success: { (imageRequest, imageResponse, image) -> Void in
+                
+                
+                if imageResponse != nil {
+                    print("fade om Image")
+                    cell.topratedpost.alpha = 0.0
+                    cell.topratedpost.image = image
+                    UIView.animateWithDuration(0.8, animations: { () -> Void in
+                        cell.topratedpost.alpha = 1.0
+                    })
+                } else {
+                    print("Image was cached ")
+                    cell.topratedpost.image = image
+                }
+                }, failure: { (imageRequest, imageResponse, error) -> Void in
+            })
         }
         else{
             cell.topratedpost.image = UIImage(named: "NO Image")
