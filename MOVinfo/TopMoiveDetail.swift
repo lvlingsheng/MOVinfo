@@ -49,9 +49,14 @@ class TopMoiveDetail: UIViewController {
             
         }
         
+        coverimage.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).CGColor
+        coverimage.layer.borderWidth = 3;
+        
+        coverimage.layer.cornerRadius=8
+        coverimage.layer.masksToBounds=true
         print(ratestring)
         Moviename.text=movietitle
-        movierate.text="Rate: " + ratestring + "/10"
+        movierate.text=ratestring+"/10"
         overview.text=overviewstring
 
         // Do any additional setup after loading the view.

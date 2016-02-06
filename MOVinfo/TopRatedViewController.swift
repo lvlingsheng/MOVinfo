@@ -196,32 +196,81 @@ extension TopRatedViewController: UICollectionViewDataSource {
         let title=movie["title"] as! String
         let baseURL="http://image.tmdb.org/t/p/w500"
         
+        //cell.selectionStyle = .None
+        let smallImagebaseURL="https://image.tmdb.org/t/p/w45"
+        let largeImagebaseURL="https://image.tmdb.org/t/p/original"
+        
+        
         
         if let myString = movies![indexPath.item]["poster_path"] as? String{
             let postpath=movie["poster_path"] as! String
-            let imageURL=NSURL(string: baseURL + postpath)
-            cell.topratedpost.setImageWithURLRequest(NSURLRequest(URL: imageURL!), placeholderImage: nil, success: { (imageRequest, imageResponse, image) -> Void in
-                
-                
-                if imageResponse != nil {
-                    print("fade om Image")
-                    cell.topratedpost.alpha = 0.0
-                    cell.topratedpost.image = image
-                    UIView.animateWithDuration(0.8, animations: { () -> Void in
+            let smallImageURL=smallImagebaseURL + postpath
+            let largeImageURL=largeImagebaseURL + postpath
+            let smallImageRequest = NSURLRequest(URL: NSURL(string: smallImageURL)!)
+            let largeImageRequest = NSURLRequest(URL: NSURL(string: largeImageURL)!)
+            cell.topratedpost.setImageWithURLRequest(
+                smallImageRequest,
+                placeholderImage: nil,
+                success: { (smallImageRequest, smallImageResponse, smallImage) -> Void in
+                    
+                    
+                    if smallImageResponse != nil {
+                        print("fade om Image")
+                        cell.topratedpost.alpha = 0.0
+                        cell.topratedpost.image = smallImage
+                        UIView.animateWithDuration(0.8, animations: { () -> Void in
+                            cell.topratedpost.alpha = 1.0
+                        })
+                    } else {
+                        print("Image was cached ")
+                        cell.topratedpost.image = smallImage
+                    }
+                    
+                    // smallImageResponse will be nil if the smallImage is already available
+                    // in cache (might want to do something smarter in that case).
+                    //                cell.postpic.alpha = 0.0
+                    //                cell.postpic.image = smallImage;
+                    
+                    UIView.animateWithDuration(0.3, animations: { () -> Void in
+                        
                         cell.topratedpost.alpha = 1.0
+                        
+                        }, completion: { (sucess) -> Void in
+                            
+                            // The AFNetworking ImageView Category only allows one request to be sent at a time
+                            // per ImageView. This code must be in the completion block.
+                            cell.topratedpost.setImageWithURLRequest(
+                                largeImageRequest,
+                                placeholderImage: smallImage,
+                                success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in
+                                    
+                                    cell.topratedpost.image = largeImage;
+                                    
+                                },
+                                failure: { (request, response, error) -> Void in
+                                    // do something for the failure condition of the large image request
+                                    // possibly setting the ImageView's image to a default image
+                            })
                     })
-                } else {
-                    print("Image was cached ")
-                    cell.topratedpost.image = image
-                }
-                }, failure: { (imageRequest, imageResponse, error) -> Void in
-            })
-        }
+                },
+                failure: { (request, response, error) -> Void in
+                    // do something for the failure condition
+                    // possibly try to get the large image
+            })}
         else{
             cell.topratedpost.image = UIImage(named: "NO Image")
         }
         cell.topratedMoviename.text=title
         
+        
+        
+        
+        cell.layer.cornerRadius=8
+        cell.layer.masksToBounds=true
+        //        cell.postpic.layer.cornerRadius=8
+        //        cell.postpic.layer.masksToBounds=true
+        //        cell.namevisual.layer.cornerRadius=8
+        //        cell.namevisual.layer.masksToBounds=true
         return cell
     }
 }

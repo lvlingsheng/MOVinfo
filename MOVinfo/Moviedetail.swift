@@ -16,6 +16,7 @@ class Moviedetail: UIViewController {
     @IBOutlet weak var backdropimage: UIImageView!
     @IBOutlet weak var Moviename: UILabel!
     @IBOutlet weak var movierate: UILabel!
+    @IBOutlet weak var coverbackground: UIView!
     
     @IBOutlet weak var overview: UILabel!
     
@@ -48,10 +49,13 @@ class Moviedetail: UIViewController {
             coverimage.setImageWithURL(posterURL!)
 
         }
-        
+        coverimage.layer.borderColor = UIColor(white: 1, alpha: 0.8).CGColor
+        coverimage.layer.borderWidth = 3;
+        coverimage.layer.cornerRadius=8
+        coverimage.layer.masksToBounds=true
         print(ratestring)
         Moviename.text=movietitle
-        movierate.text="Rate: " + ratestring + "/10"
+        movierate.text=ratestring+"/10"
         overview.text=overviewstring
         // Do any additional setup after loading the view.
     }

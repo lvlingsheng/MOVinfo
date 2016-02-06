@@ -11,5 +11,6 @@ import UIKit
 class Moviecell: UICollectionViewCell {
     @IBOutlet weak var Moviename: UILabel!
     @IBOutlet weak var postpic: UIImageView!
-    
+    @IBOutlet weak var namevisual: UIVisualEffectView!
+
 }
